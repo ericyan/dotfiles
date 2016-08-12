@@ -1,0 +1,26 @@
+[core]
+editor = vim
+autocrlf = input
+
+[alias]
+br = branch
+cm = commit -v
+co = checkout
+lg = log --graph --pretty=custom
+ls = ls-files
+st = status
+
+[color]
+diff = auto
+status = auto
+branch = auto
+ui = true
+
+[pretty]
+custom = "%C(blue)%h%C(cyan)%d » %C(reset)%s"
+
+[push]
+default = simple
+
+[include]
+path = ~/.gitconfig.local
