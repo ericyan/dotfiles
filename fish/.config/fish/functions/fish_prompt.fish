@@ -1,6 +1,6 @@
 function fish_prompt
   set -l cwd (set_color $fish_color_cwd) (pwd | sed "s:^$HOME:~:")
-  set -l prompt (set_color $fish_color_comment) ' » '
+  set -l prompt (set_color $fish_color_autosuggestion) ' » '
 
   set -l git_branch (command git symbolic-ref HEAD ^/dev/null | sed -e 's|^refs/heads/||')
   if [ $git_branch ]
