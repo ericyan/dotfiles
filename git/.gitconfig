@@ -19,6 +19,9 @@ ui = true
 [pretty]
 custom = "%C(blue)%h%C(cyan)%d » %C(reset)%s"
 
+[commit]
+template = ~/.gitmessage
+
 [push]
 default = simple
 
