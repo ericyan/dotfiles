@@ -25,5 +25,8 @@ template = ~/.gitmessage
 [push]
 default = simple
 
+[help]
+autocorrect = 10
+
 [include]
 path = ~/.gitconfig.local
