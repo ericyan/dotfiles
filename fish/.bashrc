@@ -4,6 +4,10 @@
 # Load `~/.bashrc.local` if exists
 [[ -f ~/.bashrc.local ]] && . ~/.bashrc.local
 
+# Set default text editor
+export VISUAL=nvim
+export EDITOR="$VISUAL"
+
 # Fish is not fully compatible with POSIX. By keeping Bash as the default shell,
 # ensures the environment variables are set correctly. Only then we start Fish
 # as the interactive shell.
