@@ -1,3 +1,6 @@
+# Aliases
+alias vi "nvim"
+
 # Set syntax highlighting colours
 set fish_color_command blue --bold
 set fish_color_error blue
