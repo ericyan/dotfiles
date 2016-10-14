@@ -1,6 +1,11 @@
 # Aliases
 alias vi "nvim"
 
+# Colour scheme
+if status --is-interactive
+  eval sh $HOME/.config/base16-shell/scripts/base16-ocean.sh
+end
+
 # Set syntax highlighting colours
 set fish_color_command blue --bold
 set fish_color_error blue
