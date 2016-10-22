@@ -1,5 +1,6 @@
 # Aliases
 alias vi "nvim"
+alias mkdir "mkdir -pv"
 
 # Colour scheme
 if status --is-interactive
