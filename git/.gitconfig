@@ -9,6 +9,7 @@ co = checkout
 lg = log --graph --pretty=custom
 ls = ls-files
 st = status
+amend = commit --amend --reuse-message=HEAD
 
 [color]
 diff = auto
