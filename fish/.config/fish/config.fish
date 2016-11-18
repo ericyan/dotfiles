@@ -1,5 +1,6 @@
 # Aliases
 alias vi "nvim"
+alias tmux "tmux -2"
 alias mkdir "mkdir -pv"
 
 # Colour scheme
