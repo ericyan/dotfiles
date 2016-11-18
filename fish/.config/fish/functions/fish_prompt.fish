@@ -4,7 +4,7 @@ function fish_prompt
 
   set -l git_branch (command git symbolic-ref HEAD ^/dev/null | sed -e 's|^refs/heads/||')
   if [ $git_branch ]
-    if [ (command git status -s --ignore-submodules=dirty ^/dev/null) ]
+    if [ (command git status -s --ignore-submodules=dirty ^/dev/null | tail -n 1) ]
       set git_indicator (set_color d08770) '*' (set_color cyan)
     end
 
