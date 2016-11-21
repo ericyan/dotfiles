@@ -1,6 +1,7 @@
 [core]
 editor = nvim
 autocrlf = input
+excludesfile = ~/.gitignore.global
 
 [alias]
 br = branch
