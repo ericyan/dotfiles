@@ -8,6 +8,23 @@ end
 
 task :git do
   Rake::Task[:stow].execute target: "~", source: "git"
+
+  gitconfig_path = File.expand_path("~/.gitconfig.local")
+  unless File.exist?(gitconfig_path)
+    puts "Setting up Git user..."
+    STDOUT.print "Name: "
+    name = STDIN.gets.chomp
+    STDOUT.print "Email: "
+    email = STDIN.gets.chomp
+
+    File.open(gitconfig_path, "w") do |f|
+      f.puts "[user]"
+      f.puts "name = #{name}"
+      f.puts "email = #{email}"
+    end
+
+    puts "User data written to ~/.gitconfig.local"
+  end
 end
 
 task :tmux do
