@@ -38,3 +38,6 @@ set fish_pager_color_prefix blue
 set fish_pager_color_completion normal
 set fish_pager_color_description cyan
 set fish_pager_color_progress blue
+
+# Supress welcome message
+set -e fish_greeting
