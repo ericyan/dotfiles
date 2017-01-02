@@ -1,6 +1,17 @@
 task :default => :all
 
-task :all => [:fish, :git, :tmux, :ag]
+task :all => [:nvim, :fish, :git, :tmux, :ag]
+
+task :nvim do
+  Rake::Task[:stow].execute target: "~/.config/nvim", source: "nvim"
+
+  # Install/update Plug
+  `curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim`
+
+  # Install plugins
+  `nvim +PlugInstall +qall`
+end
 
 task :fish do
   Rake::Task[:stow].execute target: "~", source: "fish"
