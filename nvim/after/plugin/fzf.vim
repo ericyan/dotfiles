@@ -1,3 +1,5 @@
 if exists('g:loaded_fzf')
-  nnoremap <Leader>f :FZF<CR>
+  let g:fzf_layout = { 'window': 'enew' }
+
+  nnoremap <Leader>f :FZF --reverse<CR>
 endif
