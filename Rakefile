@@ -2,7 +2,7 @@ task :default => :all
 
 task :all => [:nvim, :fish, :git, :tmux, :ag]
 
-task :nvim do
+task :nvim => [:ag] do
   Rake::Task[:stow].execute target: "~/.config/nvim", source: "nvim"
 
   # Install/update Plug
