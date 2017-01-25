@@ -1,5 +1,11 @@
 if exists('g:loaded_fzf')
   let g:fzf_layout = { 'window': 'enew' }
 
-  nnoremap <Leader>f :call fzf#run(fzf#wrap({'source': 'ag --hidden -g ""', 'options': ' --reverse'}))<CR>
+  function! FZF(source)
+    let a:options = '--reverse'
+
+    return fzf#run(fzf#wrap({ 'source': a:source, 'options': a:options }))
+  endfunction
+
+  nnoremap <Leader>f :call FZF('ag --hidden -g ""')<CR>
 endif
