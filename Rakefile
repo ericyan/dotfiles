@@ -3,6 +3,7 @@ task :default => :all
 task :all => [:nvim, :fish, :git, :tmux, :ag]
 
 task :nvim do
+  Rake::Task[:install].execute package: "neovim curl"
   Rake::Task[:stow].execute target: "~/.config/nvim", source: "nvim"
 
   # Install/update Plug
@@ -14,10 +15,12 @@ task :nvim do
 end
 
 task :fish do
+  Rake::Task[:install].execute package: "fish"
   Rake::Task[:stow].execute target: "~", source: "fish"
 end
 
 task :git do
+  Rake::Task[:install].execute package: "git"
   Rake::Task[:stow].execute target: "~", source: "git"
 
   gitconfig_path = File.expand_path("~/.gitconfig.local")
@@ -39,11 +42,26 @@ task :git do
 end
 
 task :tmux do
+  Rake::Task[:install].execute package: "tmux"
   Rake::Task[:stow].execute target: "~", source: "tmux"
 end
 
 task :ag do
+  Rake::Task[:install].execute package: "silversearcher-ag"
   Rake::Task[:stow].execute target: "~", source: "ag"
+end
+
+task :install, [:package] do |t, args|
+  def installed?(package)
+    system("dpkg-query -s #{package}> /dev/null 2>&1")
+  end
+
+  def execute(command)
+    puts command
+    system(command)
+  end
+
+  execute "sudo apt-get install -y #{args[:package]}" unless installed?(args[:package])
 end
 
 task :stow, [:target, :source] do |t, args|
@@ -72,4 +90,3 @@ task :stow, [:target, :source] do |t, args|
     end
   end
 end
-
