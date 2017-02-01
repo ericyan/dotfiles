@@ -56,12 +56,7 @@ task :install, [:package] do |t, args|
     system("dpkg-query -s #{package}> /dev/null 2>&1")
   end
 
-  def execute(command)
-    puts command
-    system(command)
-  end
-
-  execute "sudo apt-get install -y #{args[:package]}" unless installed?(args[:package])
+  sh "sudo apt-get install -y #{args[:package]}" unless installed?(args[:package])
 end
 
 task :stow, [:target, :source] do |t, args|
