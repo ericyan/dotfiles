@@ -65,6 +65,8 @@ task :install, [:package] do |t, args|
 end
 
 task :stow, [:target, :source] do |t, args|
+  FileUtils.mkdir_p File.expand_path(args[:target])
+
   [args[:target], args[:source]].each do |dir|
     abort "stow: #{dir} is not a directory" unless Dir.exist?(File.expand_path(dir))
   end
