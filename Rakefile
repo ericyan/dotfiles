@@ -6,12 +6,16 @@ task :nvim do
   Rake::Task[:install].execute package: "neovim curl"
   Rake::Task[:stow].execute target: "~/.config/nvim", source: "nvim"
 
-  # Install/update Plug
-  `curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim`
+  unless File.exist?(File.expand_path("~/.local/share/nvim/site/autoload/plug.vim"))
+    puts "Installing vim-plug..."
+    `curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim`
+  end
 
-  # Install plugins
-  `nvim +PlugInstall +qall`
+  unless Dir.exist?(File.expand_path("~/.local/share/nvim/plugged"))
+    puts "Installing NeoVim plugins..."
+    `nvim +PlugInstall +qall`
+  end
 end
 
 task :fish do
