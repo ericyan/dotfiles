@@ -20,6 +20,13 @@ end
 
 task :fish do
   Rake::Task[:install].execute package: "fish"
+
+  bashrc = File.expand_path("~/.bashrc")
+  if File.exist?(bashrc) and not File.symlink?(bashrc)
+    puts "~/.bashrc already exists, backing up..."
+    mv bashrc, File.expand_path("~/.bashrc.local")
+  end
+
   Rake::Task[:stow].execute target: "~", source: "fish"
 end
 
