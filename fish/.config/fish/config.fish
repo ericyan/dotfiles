@@ -1,6 +1,7 @@
 # Aliases
 alias vi "nvim"
 alias tmux "tmux -2"
+alias feh "feh --scale-down"
 alias ll "ls -lh"
 alias mkdir "mkdir -pv"
 
