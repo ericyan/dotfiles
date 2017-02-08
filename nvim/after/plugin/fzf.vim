@@ -18,6 +18,9 @@ if exists('g:loaded_fzf')
   function! FZF(source)
     let a:options = '--reverse --prompt "» "'
 
+    " Show current working directory
+    echo fnamemodify(getcwd(), ':~:.')
+
     return fzf#run(fzf#wrap({ 'source': a:source, 'options': a:options }))
   endfunction
 
