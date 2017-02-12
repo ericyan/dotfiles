@@ -3,6 +3,8 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'vim-airline/vim-airline'
   Plug 'ericyan/vim-ocean'
   Plug 'junegunn/fzf', { 'do': './install --bin' }
+
+  Plug 'fatih/vim-go'
 call plug#end()
 
 " Let Plug split windows horizontally
