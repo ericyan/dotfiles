@@ -1,6 +1,10 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# macOS runs a login shell for each new terminal. In that case, ~/.profile will
+# be loaded instead. Load profile here for consistency.
+[[ -f ~/.profile ]] && . ~/.profile
+
 # Load `~/.bashrc.local` if exists
 [[ -f ~/.bashrc.local ]] && . ~/.bashrc.local
 
