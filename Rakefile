@@ -21,10 +21,19 @@ end
 task :fish do
   Rake::Task[:install].execute package: "fish"
 
-  bashrc = File.expand_path("~/.bashrc")
-  if File.exist?(bashrc) and not File.symlink?(bashrc)
-    puts "~/.bashrc already exists, backing up..."
-    mv bashrc, File.expand_path("~/.bashrc.local")
+  backups = {
+    "~/.bashrc" => "~/.bashrc.local",
+    "~/.profile" => "~/.profile.d/profile.local",
+    "~/.bash_profile" => "~/.profile.d/bash_profile.local"
+  }
+  FileUtils.mkdir_p File.expand_path("~/.profile.d")
+
+  backups.each_pair do |old, new|
+    f = File.expand_path(old)
+    if File.exist?(f) and not File.symlink?(f)
+      puts "#{old} already exists, backing up..."
+      mv f, File.expand_path(new)
+    end
   end
 
   Rake::Task[:stow].execute target: "~", source: "fish"
