@@ -1,6 +1,6 @@
 task :default => :all
 
-task :all => [:nvim, :fish, :git, :tmux, :ag]
+task :all => [:nvim, :fish, :git, :tmux, :ag, :golang]
 
 task :nvim => [:ag] do
   Rake::Task[:install].execute package: "neovim curl"
@@ -69,6 +69,15 @@ end
 task :ag do
   Rake::Task[:install].execute package: "silversearcher-ag"
   Rake::Task[:stow].execute target: "~", source: "ag"
+end
+
+task :golang do
+  Rake::Task[:install].execute package: "golang"
+
+  # `~/Workspace` will be the GOPATH
+  FileUtils.mkdir_p File.expand_path("~/Workspace")
+
+  Rake::Task[:stow].execute target: "~", source: "golang"
 end
 
 task :install, [:package] do |t, args|
