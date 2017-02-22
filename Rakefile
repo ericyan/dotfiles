@@ -1,6 +1,6 @@
 task :default => :all
 
-task :all => [:nvim, :fish, :git, :tmux, :ag]
+task :all => [:nvim, :fish, :git, :tmux, :ag, :golang]
 
 task :nvim => [:ag] do
   Rake::Task[:install].execute package: "neovim curl"
@@ -69,6 +69,37 @@ end
 task :ag do
   Rake::Task[:install].execute package: "silversearcher-ag"
   Rake::Task[:stow].execute target: "~", source: "ag"
+end
+
+task :golang do
+  Rake::Task[:install].execute package: "golang"
+
+  # `~/Workspace` will be the GOPATH
+  FileUtils.mkdir_p File.expand_path("~/Workspace")
+
+  Rake::Task[:stow].execute target: "~", source: "golang"
+
+  STDOUT.print "Do you want to install extra Go tools? [Y/n] "
+  if STDIN.gets.chomp.downcase == "y"
+    go_tools = [
+      "github.com/nsf/gocode",
+      "github.com/alecthomas/gometalinter",
+      "golang.org/x/tools/cmd/goimports",
+      "golang.org/x/tools/cmd/guru",
+      "golang.org/x/tools/cmd/gorename",
+      "github.com/golang/lint/golint",
+      "github.com/rogpeppe/godef",
+      "github.com/kisielk/errcheck",
+      "github.com/jstemmer/gotags",
+      "github.com/klauspost/asmfmt/cmd/asmfmt",
+      "github.com/fatih/motion",
+      "github.com/fatih/gomodifytags",
+      "github.com/zmb3/gogetdoc",
+      "github.com/josharian/impl",
+    ].join(" ")
+
+    `go get -v #{go_tools}`
+  end
 end
 
 task :install, [:package] do |t, args|
