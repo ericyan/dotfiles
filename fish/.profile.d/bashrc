@@ -1,0 +1,9 @@
+# Load system-wide and .bashrc file if running bash
+if [ -n "$BASH_VERSION" ] && [ -z "$loaded_bashrc" ]; then
+  if [ -f "/etc/bash.bashrc" ]; then
+    . "/etc/bash.bashrc"
+  fi
+
+  # We know for sure there is a .bashrc file in $HOME
+  . "$HOME/.bashrc"
+fi
