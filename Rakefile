@@ -1,9 +1,9 @@
 task :default => :all
 
-task :all => [:nvim, :fish, :git, :tmux, :ag, :golang]
+task :all => [:nvim, :fish, :git, :tmux, :ag, :fzf, :golang]
 
-task :nvim => [:ag] do
-  Rake::Task[:install].execute package: "neovim curl"
+task :nvim => [:fzf] do
+  Rake::Task[:install].execute package: "neovim"
   Rake::Task[:stow].execute target: "~/.config/nvim", source: "nvim"
 
   unless File.exist?(File.expand_path("~/.local/share/nvim/site/autoload/plug.vim"))
@@ -69,6 +69,12 @@ end
 task :ag do
   Rake::Task[:install].execute package: "silversearcher-ag"
   Rake::Task[:stow].execute target: "~", source: "ag"
+end
+
+task :fzf => [:golang, :ag] do
+  `go get -v github.com/junegunn/fzf/src/fzf`
+
+  Rake::Task[:stow].execute target: "~", source: "fzf"
 end
 
 task :golang do
