@@ -1,8 +1,8 @@
 task :default => :all
 
-task :all => [:nvim, :fish, :git, :tmux, :ag, :fzf, :golang]
+task :all => [:nvim, :fish, :git, :tmux, :ag, :curl, :fzf, :golang]
 
-task :nvim => [:fzf] do
+task :nvim => [:curl, :fzf] do
   Rake::Task[:install].execute package: "neovim"
   Rake::Task[:stow].execute target: "~/.config/nvim", source: "nvim"
 
@@ -69,6 +69,11 @@ end
 task :ag do
   Rake::Task[:install].execute package: "silversearcher-ag"
   Rake::Task[:stow].execute target: "~", source: "ag"
+end
+
+task :curl do
+  Rake::Task[:install].execute package: "curl"
+  Rake::Task[:stow].execute target: "~", source: "curl"
 end
 
 task :fzf => [:golang, :ag] do
