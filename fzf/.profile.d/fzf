@@ -1,1 +1,5 @@
 export FZF_DEFAULT_COMMAND='ag --hidden -g ""'
+export FZF_DEFAULT_OPTS='
+  --prompt "» " --color fg:20,bg:00,hl:06,fg+:07,bg+:00,hl+:03
+  --color info:19,prompt:04,pointer:03,marker:06,spinner:08,header:08
+'
