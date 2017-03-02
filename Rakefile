@@ -77,12 +77,12 @@ task :curl do
 end
 
 task :fzf => [:golang, :ag] do
-  `go get -v github.com/junegunn/fzf/src/fzf`
+  `GOPATH=$HOME/Workspace go get -v github.com/junegunn/fzf/src/fzf`
 
   Rake::Task[:stow].execute target: "~", source: "fzf"
 end
 
-task :golang do
+task :golang => [:fish, :git] do
   Rake::Task[:install].execute package: "golang"
 
   # `~/Workspace` will be the GOPATH
@@ -109,7 +109,7 @@ task :golang do
       "github.com/josharian/impl",
     ].join(" ")
 
-    `go get -v #{go_tools}`
+    `GOPATH=$HOME/Workspace go get -v #{go_tools}`
   end
 end
 
