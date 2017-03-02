@@ -4,6 +4,9 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'ericyan/vim-ocean'
   Plug 'junegunn/fzf', { 'dir': '~/Workspace/src/github.com/junegunn/fzf' }
 
+  Plug 'tpope/vim-fugitive'
+  Plug 'airblade/vim-gitgutter'
+
   Plug 'fatih/vim-go'
 call plug#end()
 
