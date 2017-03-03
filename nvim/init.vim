@@ -6,6 +6,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
   Plug 'tpope/vim-fugitive'
   Plug 'airblade/vim-gitgutter'
+  Plug 'neomake/neomake'
 
   Plug 'fatih/vim-go'
 call plug#end()
