@@ -1,8 +1,9 @@
 # Aliases
+alias bash "bash --norc"
 alias vi "nvim"
 alias tmux "tmux -2"
-alias feh "feh --scale-down"
 alias ll "ls -lh"
+alias la "ls -Alh"
 alias mkdir "mkdir -pv"
 
 # Colour scheme
