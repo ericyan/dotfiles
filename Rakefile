@@ -79,7 +79,7 @@ end
 task :fzf => [:golang, :ag] do
   `GOPATH=$HOME/Workspace go get -v github.com/junegunn/fzf/src/fzf`
 
-  File.symlink(
+  make_symlink(
     File.expand_path("~/Workspace/src/github.com/junegunn/fzf/shell/key-bindings.fish"),
     File.expand_path("~/.config/fish/functions/fzf_key_bindings.fish")
   )
@@ -144,13 +144,17 @@ task :stow, [:target, :source] do |t, args|
     if File.directory?(source_path)
       Dir.mkdir(target_path) unless File.exist?(target_path)
     else
-      if File.exist?(target_path)
-        unless File.symlink?(target_path) and File.realpath(target_path) == source_path
-          abort "stow: #{target_path} already exists"
-        end
-      else
-        File.symlink(source_path, target_path)
-      end
+      make_symlink(source_path, target_path)
     end
+  end
+end
+
+def make_symlink(source_path, target_path)
+  if File.exist?(target_path)
+    unless File.symlink?(target_path) and File.realpath(target_path) == source_path
+      abort "ln_s: #{target_path} already exists"
+    end
+  else
+    File.symlink(source_path, target_path)
   end
 end
