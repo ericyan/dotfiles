@@ -3,7 +3,7 @@ task :default => :all
 task :all => [:nvim, :fish, :git, :tmux, :ag, :curl, :fzf, :golang]
 
 task :nvim => [:curl, :fzf] do
-  Rake::Task[:install].execute package: "neovim"
+  pkg "nvim", apt: "neovim"
   Rake::Task[:stow].execute target: "~/.config/nvim", source: "nvim"
 
   unless File.exist?(File.expand_path("~/.local/share/nvim/site/autoload/plug.vim"))
@@ -19,7 +19,7 @@ task :nvim => [:curl, :fzf] do
 end
 
 task :fish do
-  Rake::Task[:install].execute package: "fish"
+  pkg "fish", apt: "fish"
 
   backups = {
     "~/.bashrc" => "~/.bashrc.local",
@@ -40,7 +40,7 @@ task :fish do
 end
 
 task :git do
-  Rake::Task[:install].execute package: "git"
+  pkg "git", apt: "git"
   Rake::Task[:stow].execute target: "~", source: "git"
 
   gitconfig_path = File.expand_path("~/.gitconfig.local")
@@ -62,17 +62,17 @@ task :git do
 end
 
 task :tmux do
-  Rake::Task[:install].execute package: "tmux"
+  pkg "tmux", apt: "tmux"
   Rake::Task[:stow].execute target: "~", source: "tmux"
 end
 
 task :ag do
-  Rake::Task[:install].execute package: "silversearcher-ag"
+  pkg "ag", apt: "silversearcher-ag"
   Rake::Task[:stow].execute target: "~", source: "ag"
 end
 
 task :curl do
-  Rake::Task[:install].execute package: "curl"
+  pkg "curl", apt: "curl"
   Rake::Task[:stow].execute target: "~", source: "curl"
 end
 
@@ -88,7 +88,7 @@ task :fzf => [:golang, :ag] do
 end
 
 task :golang => [:fish, :git] do
-  Rake::Task[:install].execute package: "golang"
+  pkg "go", apt: "golang"
 
   # `~/Workspace` will be the GOPATH
   FileUtils.mkdir_p File.expand_path("~/Workspace")
@@ -116,14 +116,6 @@ task :golang => [:fish, :git] do
 
     `GOPATH=$HOME/Workspace go get -v #{go_tools}`
   end
-end
-
-task :install, [:package] do |t, args|
-  def installed?(package)
-    system("dpkg-query -s #{package}> /dev/null 2>&1")
-  end
-
-  sh "sudo apt-get install -y #{args[:package]}" unless installed?(args[:package])
 end
 
 task :stow, [:target, :source] do |t, args|
@@ -158,3 +150,14 @@ def make_symlink(source_path, target_path)
     File.symlink(source_path, target_path)
   end
 end
+
+def pkg(binary, package)
+  # NOTE: If binary is installed to sbin, need run as root to see it.
+  return if system("command -v #{binary} >/dev/null 2>&1")
+
+  case `uname -s`.strip
+  when "Linux"
+    sh "sudo apt-get install -y #{package[:apt]}"
+  else
+    abort "This OS is not supported."
+  end end
