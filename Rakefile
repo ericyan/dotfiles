@@ -79,11 +79,6 @@ end
 task :fzf => [:golang, :ag] do
   `GOPATH=$HOME/Workspace go get -v github.com/junegunn/fzf/src/fzf`
 
-  make_symlink(
-    File.expand_path("~/Workspace/src/github.com/junegunn/fzf/shell/key-bindings.fish"),
-    File.expand_path("~/.config/fish/functions/fzf_key_bindings.fish")
-  )
-
   Rake::Task[:stow].execute target: "~", source: "fzf"
 end
 
