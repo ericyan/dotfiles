@@ -3,7 +3,7 @@ task :default => :all
 task :all => [:nvim, :fish, :git, :tmux, :ag, :curl, :fzf, :golang]
 
 task :nvim => [:curl, :fzf] do
-  pkg "nvim", apt: "neovim"
+  pkg "nvim", apt: "neovim", brew: "neovim/neovim/neovim"
   Rake::Task[:stow].execute target: "~/.config/nvim", source: "nvim"
 
   unless File.exist?(File.expand_path("~/.local/share/nvim/site/autoload/plug.vim"))
@@ -19,7 +19,7 @@ task :nvim => [:curl, :fzf] do
 end
 
 task :fish do
-  pkg "fish", apt: "fish"
+  pkg "fish", apt: "fish", brew: "fish"
 
   backups = {
     "~/.bashrc" => "~/.bashrc.local",
@@ -40,7 +40,7 @@ task :fish do
 end
 
 task :git do
-  pkg "git", apt: "git"
+  pkg "git", apt: "git", brew: "git"
   Rake::Task[:stow].execute target: "~", source: "git"
 
   gitconfig_path = File.expand_path("~/.gitconfig.local")
@@ -62,17 +62,17 @@ task :git do
 end
 
 task :tmux do
-  pkg "tmux", apt: "tmux"
+  pkg "tmux", apt: "tmux", brew: "tmux"
   Rake::Task[:stow].execute target: "~", source: "tmux"
 end
 
 task :ag do
-  pkg "ag", apt: "silversearcher-ag"
+  pkg "ag", apt: "silversearcher-ag", brew: "the_silver_searcher"
   Rake::Task[:stow].execute target: "~", source: "ag"
 end
 
 task :curl do
-  pkg "curl", apt: "curl"
+  pkg "curl", apt: "curl", brew: "curl"
   Rake::Task[:stow].execute target: "~", source: "curl"
 end
 
@@ -83,7 +83,7 @@ task :fzf => [:golang, :ag] do
 end
 
 task :golang => [:fish, :git] do
-  pkg "go", apt: "golang"
+  pkg "go", apt: "golang", brew: "go"
 
   # `~/Workspace` will be the GOPATH
   FileUtils.mkdir_p File.expand_path("~/Workspace")
@@ -153,6 +153,9 @@ def pkg(binary, package)
   case `uname -s`.strip
   when "Linux"
     sh "sudo apt-get install -y #{package[:apt]}"
+  when "Darwin"
+    sh "brew install #{package[:brew]}"
   else
     abort "This OS is not supported."
-  end end
+  end
+end
