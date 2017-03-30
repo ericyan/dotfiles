@@ -1,6 +1,6 @@
 task :default => :all
 
-task :all => [:nvim, :fish, :git, :tmux, :ag, :curl, :fzf, :golang]
+task :all => [:nvim, :fish, :git, :tmux, :ag, :curl, :fzf, :golang, :ruby]
 
 task :nvim => [:curl, :fzf] do
   pkg "nvim", apt: "neovim", brew: "neovim/neovim/neovim"
@@ -113,6 +113,13 @@ task :golang => [:fish, :git] do
   end
 end
 
+task :ruby => [:fish, :git] do
+  git "https://github.com/rbenv/rbenv.git" => "~/.rbenv",
+      "https://github.com/rbenv/ruby-build.git" => "~/.rbenv/plugins/ruby-build"
+
+  Rake::Task[:stow].execute target: "~", source: "ruby"
+end
+
 task :stow, [:target, :source] do |t, args|
   FileUtils.mkdir_p File.expand_path(args[:target])
 
@@ -157,5 +164,15 @@ def pkg(binary, package)
     sh "brew install #{package[:brew]}"
   else
     abort "This OS is not supported."
+  end
+end
+
+def git(hash)
+  hash.each do |repo, path|
+    if not File.directory?(File.expand_path(path))
+      `git clone #{repo} #{path}`
+    else
+      `cd #{path} && git pull`
+    end
   end
 end
