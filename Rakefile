@@ -1,6 +1,6 @@
 task :default => :all
 
-task :all => [:nvim, :fish, :git, :tmux, :ag, :curl, :fzf, :golang, :ruby]
+task :all => [:nvim, :fish, :git, :tmux, :ag, :curl, :aria2, :fzf, :golang, :ruby]
 
 task :nvim => [:curl, :fzf] do
   pkg "nvim", apt: "neovim", brew: "neovim/neovim/neovim"
@@ -76,6 +76,10 @@ task :curl do
   Rake::Task[:stow].execute target: "~", source: "curl"
 end
 
+task :aria2 do
+  pkg "aria2c", apt: "aria2", brew: "aria2"
+end
+
 task :fzf => [:golang, :ag] do
   `GOPATH=$HOME/Workspace go get -v github.com/junegunn/fzf/src/fzf`
 
@@ -113,7 +117,7 @@ task :golang => [:fish, :git] do
   end
 end
 
-task :ruby => [:fish, :git] do
+task :ruby => [:fish, :git, :aria2] do
   git "https://github.com/rbenv/rbenv.git" => "~/.rbenv",
       "https://github.com/rbenv/ruby-build.git" => "~/.rbenv/plugins/ruby-build"
 
