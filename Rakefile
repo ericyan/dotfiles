@@ -1,6 +1,6 @@
 task :default => :all
 
-task :all => [:nvim, :fish, :git, :tmux, :ag, :curl, :aria2, :fzf, :golang, :ruby]
+task :all => [:nvim, :fish, :git, :tmux, :ag, :curl, :aria2, :fzf, :golang, :ruby, :r]
 
 task :nvim => [:curl, :fzf] do
   pkg "nvim", apt: "neovim", brew: "neovim/neovim/neovim"
@@ -122,6 +122,13 @@ task :ruby => [:fish, :git, :aria2] do
       "https://github.com/rbenv/ruby-build.git" => "~/.rbenv/plugins/ruby-build"
 
   Rake::Task[:stow].execute target: "~", source: "ruby"
+end
+
+task :r do
+  pkg "R", apt: "r-base", brew: "homebrew/science/r"
+
+  FileUtils.mkdir_p File.expand_path("~/Workspace/pkg/R")
+  Rake::Task[:stow].execute target: "~", source: "r"
 end
 
 task :stow, [:target, :source] do |t, args|
