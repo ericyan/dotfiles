@@ -3,7 +3,7 @@ task :default => :all
 task :all => [:nvim, :fish, :git, :tmux, :ag, :curl, :aria2, :fzf, :golang, :ruby, :r]
 
 task :nvim => [:curl, :fzf] do
-  pkg "nvim", apt: "neovim", brew: "neovim/neovim/neovim"
+  pkg "nvim", apt: "neovim", ppa: "neovim-ppa/unstable", brew: "neovim/neovim/neovim"
   Rake::Task[:stow].execute target: "~/.config/nvim", source: "nvim"
 
   unless File.exist?(File.expand_path("~/.local/share/nvim/site/autoload/plug.vim"))
@@ -170,6 +170,12 @@ def pkg(binary, package)
 
   case `uname -s`.strip
   when "Linux"
+    os = parse_os_release
+    if os[:id] == "ubuntu" and package[:ppa]
+      sh "sudo add-apt-repository -y ppa:#{package[:ppa]}"
+      sh "sudo apt-get update"
+    end
+
     sh "sudo apt-get install -y #{package[:apt]}"
   when "Darwin"
     sh "brew install #{package[:brew]}"
@@ -186,4 +192,13 @@ def git(hash)
       `cd #{path} && git pull`
     end
   end
+end
+
+def parse_os_release
+  return {} unless File.exist?("/etc/os-release")
+
+  Hash[File.open("/etc/os-release").each_line.map do |line|
+    key, value = line.chomp.split("=")
+    [key.downcase.to_sym, value.gsub('"', '')]
+  end]
 end
