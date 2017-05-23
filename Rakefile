@@ -118,6 +118,9 @@ task :golang => [:fish, :git] do
 end
 
 task :ruby => [:fish, :git, :aria2] do
+  pkg nil, apt: "libssl-dev libyaml-dev libffi-dev zlib1g-dev",
+           brew: "openssl libyaml libffi"
+
   git "https://github.com/rbenv/rbenv.git" => "~/.rbenv",
       "https://github.com/rbenv/ruby-build.git" => "~/.rbenv/plugins/ruby-build"
 
@@ -166,7 +169,7 @@ end
 
 def pkg(binary, package)
   # NOTE: If binary is installed to sbin, need run as root to see it.
-  return if system("command -v #{binary} >/dev/null 2>&1")
+  return if !binary.nil? and system("command -v #{binary} >/dev/null 2>&1")
 
   case `uname -s`.strip
   when "Linux"
