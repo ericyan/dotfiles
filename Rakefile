@@ -1,4 +1,4 @@
-task :default => :all
+task :default => [:nvim, :fish, :git]
 
 task :all => [:nvim, :fish, :git, :tmux, :ag, :curl, :aria2, :fzf, :golang, :ruby, :r]
 
