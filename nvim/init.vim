@@ -11,6 +11,7 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'neomake/neomake'
 
   Plug 'fatih/vim-go'
+  Plug 'lervag/vimtex'
 call plug#end()
 
 " Let Plug split windows horizontally
