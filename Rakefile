@@ -2,7 +2,7 @@ task :default => [:nvim, :fish, :git]
 
 task :all => [:nvim, :fish, :git, :tmux, :ag, :curl, :aria2, :fzf, :golang, :ruby, :r]
 
-task :nvim => [:curl, :fzf] do
+task :nvim => [:curl] do
   pkg "nvim", apt: "neovim", ppa: "neovim-ppa/unstable", brew: "neovim/neovim/neovim"
   Rake::Task[:stow].execute target: "~/.config/nvim", source: "nvim"
 
