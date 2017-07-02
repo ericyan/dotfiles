@@ -12,6 +12,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
   Plug 'fatih/vim-go'
   Plug 'lervag/vimtex'
+  Plug 'hashivim/vim-terraform'
 call plug#end()
 
 " Let Plug split windows horizontally
