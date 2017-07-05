@@ -32,7 +32,6 @@ color20="a7/ad/ba" # Base 04
 color21="df/e1/e8" # Base 06
 color_foreground="c0/c5/ce" # Base 05
 color_background="2b/30/3b" # Base 00
-color_cursor="c0/c5/ce" # Base 05
 
 if [ -n "$TMUX" ]; then
   # Tell tmux to pass the escape sequences through
@@ -80,7 +79,7 @@ printf $printf_template 21 $color21
 # foreground / background / cursor color
 if [ -n "$ITERM_SESSION_ID" ]; then
   # iTerm2 proprietary escape codes
-  printf $printf_template_custom Pg c0c5ce # forground
+  printf $printf_template_custom Pg c0c5ce # foreground
   printf $printf_template_custom Ph 2b303b # background
   printf $printf_template_custom Pi c0c5ce # bold color
   printf $printf_template_custom Pj 4f5b66 # selection color
@@ -89,7 +88,12 @@ if [ -n "$ITERM_SESSION_ID" ]; then
   printf $printf_template_custom Pm 2b303b # cursor text
 else
   printf $printf_template_var 10 $color_foreground
-  printf $printf_template_var 11 $color_background
+  if [ "$BASE16_SHELL_SET_BACKGROUND" != false ]; then
+    printf $printf_template_var 11 $color_background
+    if [ "${TERM%%-*}" = "rxvt" ]; then
+      printf $printf_template_var 708 $color_background # internal border (rxvt)
+    fi
+  fi
   printf $printf_template_custom 12 ";7" # cursor (reverse video)
 fi
 
@@ -120,4 +124,3 @@ unset color20
 unset color21
 unset color_foreground
 unset color_background
-unset color_cursor
