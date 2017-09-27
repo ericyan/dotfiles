@@ -81,7 +81,7 @@ task :aria2 do
 end
 
 task :fzf => [:golang, :ag] do
-  `GOPATH=$HOME/Workspace go get -v github.com/junegunn/fzf/src/fzf`
+  `GOPATH=$HOME/Workspace go get -v github.com/junegunn/fzf`
 
   Rake::Task[:stow].execute target: "~", source: "fzf"
 end
